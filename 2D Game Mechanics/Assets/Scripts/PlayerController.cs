@@ -6,7 +6,9 @@ using UnityEngine.SceneManagement;
 public class PlayerController : MonoBehaviour
 {
     public float Speed = 10;
-    public GameObject ExplosionFX;
+    public GameObject Explosion;
+    public GameObject PowerUpIndicator;
+    public bool HasPowerup = false;
     private Rigidbody2D _playerRb;
 
     // Start is called before the first frame update
@@ -30,9 +32,24 @@ public class PlayerController : MonoBehaviour
     {
         if(other.gameObject.CompareTag("OoB"))
         {
-            Instantiate(ExplosionFX, transform.position, ExplosionFX.transform.rotation);
+            Instantiate(Explosion, transform.position, Explosion.transform.rotation);
             gameObject.SetActive(false);
             SceneManager.LoadScene(0);
         }
+
+        if(other.gameObject.CompareTag("Powerup"))
+        {
+            Destroy(other.gameObject);
+            PowerUpIndicator.gameObject.SetActive(true);
+            HasPowerup = true;
+            StartCoroutine(PowerupCountdownRoutine());
+        }
+    }
+
+    IEnumerator PowerupCountdownRoutine()
+    {
+        yield return new WaitForSeconds(7);
+        PowerUpIndicator.gameObject.SetActive(false);
+        HasPowerup = false;
     }
 }
