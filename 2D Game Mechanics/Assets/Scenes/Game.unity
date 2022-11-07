@@ -1070,8 +1070,8 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
+  m_Mass: 2
+  m_LinearDrag: 2
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 6200000, guid: 200e4428bb3baeb43818b0b745f21827, type: 2}
@@ -1091,7 +1091,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22845f22b10d2794f879aa3e2f7968b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 3
+  Speed: 20
+  PowerupStrength: 10
   Explosion: {fileID: 2608352952741268806, guid: 5b36f1eb50c0512479b73e468ed66e8e, type: 3}
   PowerUpIndicator: {fileID: 1146337538}
   HasPowerup: 0

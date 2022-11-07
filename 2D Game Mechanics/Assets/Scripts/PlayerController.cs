@@ -11,11 +11,13 @@ public class PlayerController : MonoBehaviour
     public GameObject PowerUpIndicator;
     public bool HasPowerup = false;
     private Rigidbody2D _playerRb;
+    private SpriteRenderer _playerSR;
 
     // Start is called before the first frame update
     void Start()
     {
         _playerRb = GetComponent<Rigidbody2D>();
+        _playerSR = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
@@ -34,8 +36,7 @@ public class PlayerController : MonoBehaviour
         if(other.gameObject.CompareTag("OoB"))
         {
             Instantiate(Explosion, transform.position, Explosion.transform.rotation);
-            gameObject.SetActive(false);
-            SceneManager.LoadScene(0);
+            StartCoroutine(GameOverRoutine());
         }
 
         if(other.gameObject.CompareTag("Powerup"))
@@ -53,7 +54,9 @@ public class PlayerController : MonoBehaviour
         {
             Rigidbody2D enemyRB = other.gameObject.GetComponent<Rigidbody2D>();
             Vector2 awayFromPlayer = (other.gameObject.transform.position - transform.position);
-            enemyRB
+            enemyRB.AddForce(awayFromPlayer * PowerupStrength, ForceMode2D.Impulse);
+            PowerUpIndicator.gameObject.SetActive(false);
+            HasPowerup = false;
         }
     }
 
@@ -62,5 +65,16 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(7);
         PowerUpIndicator.gameObject.SetActive(false);
         HasPowerup = false;
+    }
+
+    IEnumerator GameOverRoutine()
+    {
+        Instantiate(Explosion, transform.position, Explosion.transform.rotation);
+       // gameObject.SetActive(false);
+        PowerUpIndicator.gameObject.SetActive(false);
+        HasPowerup = false;
+        _playerSR.enabled = false;
+        yield return new WaitForSeconds(1.1f);
+        SceneManager.LoadScene(0);
     }
 }
